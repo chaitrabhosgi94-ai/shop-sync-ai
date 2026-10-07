@@ -1,0 +1,7 @@
+{
+    "model": "Random Forest Regression",
+    "mae": 3.21,
+    "r2_score": 0.89,
+    "training_records": 32,
+    "testing_records": 8
+}

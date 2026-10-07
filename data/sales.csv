@@ -1,0 +1,41 @@
+ date,product,category,units_sold,price
+2026-01-01,Rice,Grocery,20,450
+2026-01-08,Rice,Grocery,22,450
+2026-01-15,Rice,Grocery,25,450
+2026-01-22,Rice,Grocery,27,450
+2026-01-29,Rice,Grocery,30,450
+2026-02-05,Rice,Grocery,32,450
+2026-02-12,Rice,Grocery,35,450
+2026-02-19,Rice,Grocery,38,450
+2026-01-01,Milk,Dairy,30,60
+2026-01-08,Milk,Dairy,32,60
+2026-01-15,Milk,Dairy,35,60
+2026-01-22,Milk,Dairy,33,60
+2026-01-29,Milk,Dairy,38,60
+2026-02-05,Milk,Dairy,40,60
+2026-02-12,Milk,Dairy,42,60
+2026-02-19,Milk,Dairy,45,60
+2026-01-01,Bread,Bakery,15,45
+2026-01-08,Bread,Bakery,18,45
+2026-01-15,Bread,Bakery,20,45
+2026-01-22,Bread,Bakery,22,45
+2026-01-29,Bread,Bakery,25,45
+2026-02-05,Bread,Bakery,27,45
+2026-02-12,Bread,Bakery,29,45
+2026-02-19,Bread,Bakery,31,45
+2026-01-01,Biscuits,Snacks,40,30
+2026-01-08,Biscuits,Snacks,42,30
+2026-01-15,Biscuits,Snacks,39,30
+2026-01-22,Biscuits,Snacks,45,30
+2026-01-29,Biscuits,Snacks,47,30
+2026-02-05,Biscuits,Snacks,50,30
+2026-02-12,Biscuits,Snacks,52,30
+2026-02-19,Biscuits,Snacks,55,30
+2026-01-01,Soap,Personal Care,10,40
+2026-01-08,Soap,Personal Care,12,40
+2026-01-15,Soap,Personal Care,14,40
+2026-01-22,Soap,Personal Care,13,40
+2026-01-29,Soap,Personal Care,16,40
+2026-02-05,Soap,Personal Care,18,40
+2026-02-12,Soap,Personal Care,20,40
+2026-02-19,Soap,Personal Care,22,40

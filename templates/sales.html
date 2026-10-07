@@ -1,0 +1,326 @@
+ <!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Sales | Shop Sync AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+
+<div class="sidebar">
+
+    <div class="logo">
+        🛍️ Shop Sync AI
+    </div>
+
+    <a href="/">🏠 Dashboard</a>
+
+    <a href="/inventory">📦 Inventory</a>
+
+    <a href="/sales" class="active">
+        💰 Sales
+    </a>
+
+    <a href="/ai-forecast">🤖 AI Forecast</a>
+
+    <a href="/insights">💡 AI Insights</a>
+
+</div>
+
+
+<div class="main">
+
+    <div class="topbar">
+
+        <div>
+
+            <h1>Sales Management</h1>
+
+            <p>
+                Record sales and track retail performance
+            </p>
+
+        </div>
+
+        <div class="ai-status">
+            🟢 Sales System Active
+        </div>
+
+    </div>
+
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+
+            <span>🛒</span>
+
+            <div>
+
+                <small>Units Sold</small>
+
+                <strong>
+                    {{ total_sales }}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <span>🧾</span>
+
+            <div>
+
+                <small>Transactions</small>
+
+                <strong>
+                    {{ total_transactions }}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <span>💰</span>
+
+            <div>
+
+                <small>Total Revenue</small>
+
+                <strong>
+                    ₹{{ "%.2f"|format(total_revenue) }}
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="section">
+
+        <h2>➕ Record New Sale</h2>
+
+        <p class="inventory-description">
+            Recording a sale automatically reduces inventory.
+        </p>
+
+
+        <form
+            action="/add_sale"
+            method="POST"
+            class="sale-form"
+        >
+
+            <div class="form-group">
+
+                <label>Product</label>
+
+                <select
+                    name="product"
+                    required
+                >
+
+                    <option value="">
+                        Select product
+                    </option>
+
+                    {% for product in products %}
+
+                    <option value="{{ product.name }}">
+
+                        {{ product.name }}
+                        — Stock: {{ product.stock }}
+
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Quantity</label>
+
+                <input
+                    type="number"
+                    name="quantity"
+                    min="1"
+                    placeholder="Quantity"
+                    required
+                >
+
+            </div>
+
+
+            <div class="sale-submit">
+
+                <button type="submit">
+                    Record Sale
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <div class="section">
+
+        <div class="section-header">
+
+            <div>
+
+                <h2>🧾 Recent Transactions</h2>
+
+                <p>
+                    Latest recorded sales
+                </p>
+
+            </div>
+
+        </div>
+
+
+        {% if sales %}
+
+        <div class="sales-table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+
+                        <th>Product</th>
+
+                        <th>Quantity</th>
+
+                        <th>Date</th>
+
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for sale in sales %}
+
+                    <tr>
+
+                        <td>
+                            #{{ sale.id }}
+                        </td>
+
+                        <td>
+                            <strong>
+                                {{ sale.product }}
+                            </strong>
+                        </td>
+
+                        <td>
+
+                            <span class="quantity-badge">
+                                {{ sale.quantity }} units
+                            </span>
+
+                        </td>
+
+                        <td>
+                            {{ sale.sale_date }}
+                        </td>
+
+                        <td>
+
+                            <span class="sale-status">
+                                ✓ Completed
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+        <div class="empty-sales">
+
+            <div class="empty-icon">
+                🧾
+            </div>
+
+            <h3>
+                No sales recorded yet
+            </h3>
+
+            <p>
+                Record your first sale using the form above.
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <div class="ai-banner">
+
+        <div class="ai-icon">
+            🤖
+        </div>
+
+        <div>
+
+            <h2>
+                Sales Data Powers the AI
+            </h2>
+
+            <p>
+                Historical sales patterns are used by the
+                Machine Learning system to estimate future demand.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard | Shop Sync AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+
+<div class="sidebar">
+
+    <div class="logo">
+        🛍️ Shop Sync AI
+    </div>
+
+    <a href="/" class="active">🏠 Dashboard</a>
+
+    <a href="/inventory">📦 Inventory</a>
+
+    <a href="/sales">💰 Sales</a>
+
+    <a href="/ai-forecast">🤖 AI Forecast</a>
+
+    <a href="/insights">💡 AI Insights</a>
+
+</div>
+
+
+<div class="main">
+
+    <div class="topbar">
+
+        <div>
+
+            <h1>Smart Retail Dashboard</h1>
+
+            <p>
+                AI-powered inventory and demand management
+            </p>
+
+        </div>
+
+        <div class="ai-status">
+            🟢 AI System Active
+        </div>
+
+    </div>
+
+
+    <div class="hero">
+
+        <div>
+
+            <span class="hero-label">
+                AI RETAIL INTELLIGENCE
+            </span>
+
+            <h2>
+                Make smarter inventory decisions.
+            </h2>
+
+            <p>
+                Shop Sync AI uses Machine Learning to
+                analyze sales patterns, predict demand
+                and recommend inventory actions.
+            </p>
+
+            <a href="/ai-forecast"
+               class="hero-button">
+
+                View AI Forecast →
+
+            </a>
+
+        </div>
+
+        <div class="hero-emoji">
+            🤖
+        </div>
+
+    </div>
+
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+
+            <span>📦</span>
+
+            <div>
+
+                <small>Total Products</small>
+
+                <strong>
+                    {{ total_products }}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <span>🛒</span>
+
+            <div>
+
+                <small>Total Stock</small>
+
+                <strong>
+                    {{ total_stock }}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <span>💰</span>
+
+            <div>
+
+                <small>Units Sold</small>
+
+                <strong>
+                    {{ total_sales }}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card danger-stat">
+
+            <span>⚠️</span>
+
+            <div>
+
+                <small>Low Stock</small>
+
+                <strong>
+                    {{ low_stock }}
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="dashboard-grid">
+
+        <div class="section">
+
+            <div class="section-header">
+
+                <div>
+
+                    <h2>📦 Inventory Overview</h2>
+
+                    <p>
+                        Current stock position
+                    </p>
+
+                </div>
+
+                <a href="/inventory">
+                    Manage →
+                </a>
+
+            </div>
+
+
+            <div class="product-list">
+
+                {% for product in products %}
+
+                <div class="product-row">
+
+                    <div class="product-info">
+
+                        <div class="product-icon">
+                            📦
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                {{ product.name }}
+                            </strong>
+
+                            <small>
+                                {{ product.category }}
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="stock-info">
+
+                        <strong>
+                            {{ product.stock }}
+                        </strong>
+
+                        <small>units</small>
+
+                    </div>
+
+
+                    {% if product.stock < 10 %}
+
+                    <span class="stock-badge low">
+                        Low
+                    </span>
+
+                    {% elif product.stock < 20 %}
+
+                    <span class="stock-badge medium">
+                        Medium
+                    </span>
+
+                    {% else %}
+
+                    <span class="stock-badge healthy">
+                        Healthy
+                    </span>
+
+                    {% endif %}
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+        <div class="ai-card">
+
+            <div class="ai-card-icon">
+                🤖
+            </div>
+
+            <h2>
+                AI Demand Forecast
+            </h2>
+
+            <p>
+                Predict future demand using historical
+                sales data and Machine Learning.
+            </p>
+
+            <div class="ai-mini-flow">
+
+                <span>Sales Data</span>
+
+                <b>→</b>
+
+                <span>ML Model</span>
+
+                <b>→</b>
+
+                <span>Prediction</span>
+
+            </div>
+
+            <a href="/ai-forecast">
+                Open AI Forecast →
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="analytics-grid">
+
+        <div class="section chart-card">
+
+            <div class="section-header">
+
+                <div>
+
+                    <h2>📈 Sales Trend</h2>
+
+                    <p>
+                        Recorded sales over time
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="chart-container">
+
+                <canvas id="salesChart"></canvas>
+
+            </div>
+
+        </div>
+
+
+        <div class="section chart-card">
+
+            <div class="section-header">
+
+                <div>
+
+                    <h2>📊 Stock by Category</h2>
+
+                    <p>
+                        Inventory distribution
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="chart-container">
+
+                <canvas id="categoryChart"></canvas>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="analytics-grid">
+
+        <div class="section chart-card">
+
+            <div class="section-header">
+
+                <div>
+
+                    <h2>🤖 AI Predicted Demand</h2>
+
+                    <p>
+                        Machine Learning prediction
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="chart-container">
+
+                <canvas id="demandChart"></canvas>
+
+            </div>
+
+        </div>
+
+
+        <div class="section chart-card">
+
+            <div class="section-header">
+
+                <div>
+
+                    <h2>📦 Current Stock</h2>
+
+                    <p>
+                        Product-wise inventory
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="chart-container">
+
+                <canvas id="stockChart"></canvas>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="section">
+
+        <h2>🧠 How Shop Sync AI Works</h2>
+
+        <div class="ai-process">
+
+            <div>
+
+                <span>1</span>
+
+                <h3>Sales Data</h3>
+
+                <p>
+                    Historical sales information is collected.
+                </p>
+
+            </div>
+
+            <div>
+
+                <span>2</span>
+
+                <h3>Data Processing</h3>
+
+                <p>
+                    Pandas prepares and transforms the data.
+                </p>
+
+            </div>
+
+            <div>
+
+                <span>3</span>
+
+                <h3>ML Prediction</h3>
+
+                <p>
+                    Random Forest predicts future demand.
+                </p>
+
+            </div>
+
+            <div>
+
+                <span>4</span>
+
+                <h3>Smart Decision</h3>
+
+                <p>
+                    AI compares demand with inventory.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const salesDates =
+    {{ sales_dates | tojson }};
+
+const salesValues =
+    {{ sales_values | tojson }};
+
+const categoryNames =
+    {{ category_names | tojson }};
+
+const categoryValues =
+    {{ category_values | tojson }};
+
+const aiProducts =
+    {{ ai_products | tojson }};
+
+const aiDemands =
+    {{ ai_demands | tojson }};
+
+const productNames =
+    {{ product_names | tojson }};
+
+const productStocks =
+    {{ product_stocks | tojson }};
+
+
+new Chart(
+    document.getElementById("salesChart"),
+    {
+
+        type: "line",
+
+        data: {
+
+            labels: salesDates,
+
+            datasets: [{
+
+                label: "Units Sold",
+
+                data: salesValues,
+
+                tension: 0.3,
+
+                fill: false
+
+            }]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false
+
+        }
+
+    }
+);
+
+
+new Chart(
+    document.getElementById("categoryChart"),
+    {
+
+        type: "doughnut",
+
+        data: {
+
+            labels: categoryNames,
+
+            datasets: [{
+
+                data: categoryValues
+
+            }]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false
+
+        }
+
+    }
+);
+
+
+new Chart(
+    document.getElementById("demandChart"),
+    {
+
+        type: "bar",
+
+        data: {
+
+            labels: aiProducts,
+
+            datasets: [{
+
+                label: "Predicted Demand",
+
+                data: aiDemands
+
+            }]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            scales: {
+
+                y: {
+
+                    beginAtZero: true
+
+                }
+
+            }
+
+        }
+
+    }
+);
+
+
+new Chart(
+    document.getElementById("stockChart"),
+    {
+
+        type: "bar",
+
+        data: {
+
+            labels: productNames,
+
+            datasets: [{
+
+                label: "Current Stock",
+
+                data: productStocks
+
+            }]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            scales: {
+
+                y: {
+
+                    beginAtZero: true
+
+                }
+
+            }
+
+        }
+
+    }
+);
+
+</script>
+
+
+</body>
+</html>

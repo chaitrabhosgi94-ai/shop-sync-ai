@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>AI Forecast | Shop Sync AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+
+<div class="sidebar">
+
+    <div class="logo">
+        🛍️ Shop Sync AI
+    </div>
+
+    <a href="/">🏠 Dashboard</a>
+
+    <a href="/inventory">📦 Inventory</a>
+
+    <a href="/sales">💰 Sales</a>
+
+    <a href="/ai-forecast" class="active">
+        🤖 AI Forecast
+    </a>
+
+    <a href="/insights">💡 AI Insights</a>
+
+</div>
+
+
+<div class="main">
+
+
+    <div class="topbar">
+
+        <div>
+
+            <h1>AI Demand Forecast</h1>
+
+            <p>
+                Machine Learning powered demand prediction
+            </p>
+
+        </div>
+
+        <div class="ai-status">
+            🟢 Random Forest ML Active
+        </div>
+
+    </div>
+
+
+    <div class="forecast-hero">
+
+        <div class="forecast-hero-icon">
+            🤖
+        </div>
+
+        <div>
+
+            <span class="ai-label">
+                ARTIFICIAL INTELLIGENCE
+            </span>
+
+            <h2>
+                Smart Demand Prediction
+            </h2>
+
+            <p>
+                Shop Sync AI analyzes historical sales data
+                using Random Forest Regression to predict
+                future product demand.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="model-info-grid">
+
+        <div class="model-info-card">
+
+            <span class="model-icon">
+                🧠
+            </span>
+
+            <div>
+
+                <small>ML Algorithm</small>
+
+                <strong>
+                    Random Forest
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="model-info-card">
+
+            <span class="model-icon">
+                📊
+            </span>
+
+            <div>
+
+                <small>Prediction Type</small>
+
+                <strong>
+                    Demand Regression
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="model-info-card">
+
+            <span class="model-icon">
+                🐍
+            </span>
+
+            <div>
+
+                <small>Framework</small>
+
+                <strong>
+                    Scikit-learn
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="model-info-card">
+
+            <span class="model-icon">
+                📅
+            </span>
+
+            <div>
+
+                <small>Forecast Horizon</small>
+
+                <strong>
+                    7 Days
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="section">
+
+        <div class="forecast-section-header">
+
+            <h2>
+                📈 Product Demand Predictions
+            </h2>
+
+            <p>
+                AI-generated demand estimates based on
+                historical sales patterns.
+            </p>
+
+        </div>
+
+
+        <div class="forecast-grid">
+
+            {% for item in forecasts %}
+
+            <div class="forecast-card">
+
+                <div class="card-top">
+
+                    <div class="product-symbol">
+                        📦
+                    </div>
+
+
+                    {% if item.reorder_quantity > 0 %}
+
+                    <span class="badge danger">
+                        ⚠ Reorder
+                    </span>
+
+                    {% else %}
+
+                    <span class="badge safe">
+                        ✓ Good Stock
+                    </span>
+
+                    {% endif %}
+
+                </div>
+
+
+                <h2>
+                    {{ item.product }}
+                </h2>
+
+                <p class="category">
+                    {{ item.category }}
+                </p>
+
+
+                <div class="prediction">
+
+                    <span>
+                        AI Predicted Demand
+                    </span>
+
+                    <strong>
+                        {{ item.predicted_demand }}
+                    </strong>
+
+                    <small>
+                        units / next 7 days
+                    </small>
+
+                </div>
+
+
+                <div class="stock-row">
+
+                    <div>
+
+                        <span>
+                            Current Stock
+                        </span>
+
+                        <strong>
+                            {{ item.current_stock }}
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Suggested Reorder
+                        </span>
+
+                        <strong>
+                            {{ item.reorder_quantity }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                {% if item.demand_level == "HIGH" %}
+
+                <div class="demand-level high">
+
+                    🔥
+
+                    <div>
+
+                        <strong>
+                            High Demand
+                        </strong>
+
+                        <p>
+                            Strong demand expected.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                {% elif item.demand_level == "MEDIUM" %}
+
+                <div class="demand-level medium">
+
+                    📊
+
+                    <div>
+
+                        <strong>
+                            Medium Demand
+                        </strong>
+
+                        <p>
+                            Moderate demand expected.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                {% else %}
+
+                <div class="demand-level low">
+
+                    📉
+
+                    <div>
+
+                        <strong>
+                            Low Demand
+                        </strong>
+
+                        <p>
+                            Lower demand expected.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                {% endif %}
+
+
+                {% if item.reorder_quantity > 0 %}
+
+                <div class="recommendation warning">
+
+                    ⚠️
+
+                    <div>
+
+                        <strong>
+                            AI Recommendation
+                        </strong>
+
+                        <p>
+                            Order
+                            {{ item.reorder_quantity }}
+                            additional units.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                {% else %}
+
+                <div class="recommendation success">
+
+                    ✅
+
+                    <div>
+
+                        <strong>
+                            Inventory Sufficient
+                        </strong>
+
+                        <p>
+                            No immediate reorder required.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                {% endif %}
+
+
+                <div class="priority-row">
+
+                    <span>
+                        Reorder Priority
+                    </span>
+
+                    <strong>
+                        {{ item.priority }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+
+    <div class="section">
+
+        <div class="forecast-section-header">
+
+            <h2>
+                📊 AI Demand vs Current Stock
+            </h2>
+
+            <p>
+                Compare predicted demand with available inventory.
+            </p>
+
+        </div>
+
+
+        <div class="forecast-chart-container">
+
+            <canvas id="demandChart"></canvas>
+
+        </div>
+
+    </div>
+
+
+    <div class="section">
+
+        <h2>
+            🧠 How Shop Sync AI Predicts Demand
+        </h2>
+
+        <p class="forecast-description">
+            Historical sales are transformed into machine-learning
+            features before the trained model predicts future demand.
+        </p>
+
+
+        <div class="ai-process">
+
+            <div>
+
+                <span>1</span>
+
+                <h3>
+                    Sales Data
+                </h3>
+
+                <p>
+                    Historical product sales are collected.
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <span>2</span>
+
+                <h3>
+                    Feature Engineering
+                </h3>
+
+                <p>
+                    Previous sales and rolling averages are created.
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <span>3</span>
+
+                <h3>
+                    ML Prediction
+                </h3>
+
+                <p>
+                    Random Forest Regression predicts demand.
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <span>4</span>
+
+                <h3>
+                    Smart Decision
+                </h3>
+
+                <p>
+                    Demand is compared with current stock.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="interview-box">
+
+        <div class="interview-icon">
+            💼
+        </div>
+
+        <div>
+
+            <h2>
+                Interview Explanation
+            </h2>
+
+            <p>
+                Shop Sync AI uses historical sales data to train
+                a Random Forest Regression model. Feature
+                engineering includes previous sales and rolling
+                averages. The trained model predicts future demand.
+                The predicted demand is compared with current
+                inventory to calculate a smart reorder quantity.
+            </p>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+const products =
+    {{ chart_products | tojson }};
+
+const predictedDemand =
+    {{ chart_demand | tojson }};
+
+const currentStock =
+    {{ chart_stock | tojson }};
+
+
+new Chart(
+
+    document.getElementById(
+        "demandChart"
+    ),
+
+    {
+
+        type: "bar",
+
+        data: {
+
+            labels: products,
+
+            datasets: [
+
+                {
+
+                    label:
+                        "AI Predicted Demand",
+
+                    data:
+                        predictedDemand,
+
+                    borderWidth: 1
+
+                },
+
+                {
+
+                    label:
+                        "Current Stock",
+
+                    data:
+                        currentStock,
+
+                    borderWidth: 1
+
+                }
+
+            ]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            scales: {
+
+                y: {
+
+                    beginAtZero: true,
+
+                    title: {
+
+                        display: true,
+
+                        text: "Units"
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+);
+
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>AI Insights | Shop Sync AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+
+<div class="sidebar">
+
+    <div class="logo">
+        🛍️ Shop Sync AI
+    </div>
+
+    <a href="/">🏠 Dashboard</a>
+
+    <a href="/inventory">📦 Inventory</a>
+
+    <a href="/sales">💰 Sales</a>
+
+    <a href="/ai-forecast">🤖 AI Forecast</a>
+
+    <a href="/insights" class="active">
+        💡 AI Insights
+    </a>
+
+</div>
+
+
+<div class="main">
+
+    <div class="topbar">
+
+        <div>
+
+            <h1>AI Business Insights</h1>
+
+            <p>
+                Intelligent inventory recommendations
+            </p>
+
+        </div>
+
+        <div class="ai-status">
+            🟢 AI Analysis Active
+        </div>
+
+    </div>
+
+
+    <div class="ai-banner">
+
+        <div class="ai-icon">
+            🧠
+        </div>
+
+        <div>
+
+            <h2>
+                Intelligent Retail Analysis
+            </h2>
+
+            <p>
+                AI analyzes predicted demand and current
+                inventory to identify risks and recommend
+                inventory actions.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+
+            <span>📦</span>
+
+            <div>
+
+                <small>Products</small>
+
+                <strong>
+                    {{ total_products }}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <span>🛒</span>
+
+            <div>
+
+                <small>Current Stock</small>
+
+                <strong>
+                    {{ total_stock }}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <span>💰</span>
+
+            <div>
+
+                <small>Units Sold</small>
+
+                <strong>
+                    {{ total_sales }}
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    {% if top_product %}
+
+    <div class="top-product-card">
+
+        <div class="top-product-icon">
+            🔥
+        </div>
+
+        <div>
+
+            <span>
+                HIGHEST PREDICTED DEMAND
+            </span>
+
+            <h2>
+                {{ top_product.product }}
+            </h2>
+
+            <p>
+                AI predicts
+                <strong>
+                    {{ top_product.demand }}
+                </strong>
+                units of demand.
+            </p>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+
+    <div class="section">
+
+        <h2>
+            💡 Product Intelligence
+        </h2>
+
+        <p class="forecast-description">
+            AI-generated insights for every product.
+        </p>
+
+
+        <div class="insights-grid">
+
+            {% for item in insights %}
+
+            <div class="insight-card">
+
+                <div class="insight-card-top">
+
+                    <div>
+
+                        <h2>
+                            {{ item.product }}
+                        </h2>
+
+                        <p>
+                            {{ item.category }}
+                        </p>
+
+                    </div>
+
+
+                    {% if item.demand_level == "High" %}
+
+                    <span class="insight-badge high">
+                        High Demand
+                    </span>
+
+                    {% elif item.demand_level == "Medium" %}
+
+                    <span class="insight-badge medium">
+                        Medium Demand
+                    </span>
+
+                    {% else %}
+
+                    <span class="insight-badge low">
+                        Low Demand
+                    </span>
+
+                    {% endif %}
+
+                </div>
+
+
+                <div class="insight-numbers">
+
+                    <div>
+
+                        <small>
+                            Current Stock
+                        </small>
+
+                        <strong>
+                            {{ item.stock }}
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <small>
+                            AI Demand
+                        </small>
+
+                        <strong>
+                            {{ item.demand }}
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <small>
+                            Reorder
+                        </small>
+
+                        <strong>
+                            {{ item.reorder }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="insight-status">
+
+                    <strong>
+                        {{ item.status }}
+                    </strong>
+
+                    <p>
+                        {{ item.recommendation }}
+                    </p>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+
+    <div class="section">
+
+        <h2>
+            ⚠ Inventory Risk
+        </h2>
+
+
+        {% if low_stock_products %}
+
+        <div class="risk-list">
+
+            {% for product in low_stock_products %}
+
+            <div class="risk-item">
+
+                <div>
+
+                    <strong>
+                        {{ product.name }}
+                    </strong>
+
+                    <small>
+                        {{ product.category }}
+                    </small>
+
+                </div>
+
+
+                <span>
+                    {{ product.stock }} units
+                </span>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        {% else %}
+
+        <div class="no-risk">
+
+            ✅
+
+            <div>
+
+                <strong>
+                    No critical inventory risk
+                </strong>
+
+                <p>
+                    All products currently have acceptable stock.
+                </p>
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <div class="section">
+
+        <h2>
+            🔄 AI Decision Process
+        </h2>
+
+
+        <div class="decision-flow">
+
+            <div>
+                Historical Sales
+            </div>
+
+            <span>→</span>
+
+            <div>
+                ML Prediction
+            </div>
+
+            <span>→</span>
+
+            <div>
+                Current Stock
+            </div>
+
+            <span>→</span>
+
+            <div>
+                Reorder Decision
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</body>
+</html>

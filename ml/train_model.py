@@ -9,10 +9,7 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error, r2_score
 
 
-# =====================================================
-# PROJECT PATHS
-# =====================================================
-
+ 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 DATA_PATH = BASE_DIR / "data" / "sales.csv"
@@ -22,24 +19,18 @@ MODEL_PATH = BASE_DIR / "ml" / "model.pkl"
 METRICS_PATH = BASE_DIR / "ml" / "model_metrics.json"
 
 
-# =====================================================
-# HEADER
-# =====================================================
-
+ 
 print("====================================")
 print("       SHOP SYNC AI - ML MODEL")
 print("====================================")
 
 
-# =====================================================
-# LOAD DATA
-# =====================================================
-
+ 
 print("\nLoading dataset...")
 
 data = pd.read_csv(DATA_PATH)
 
-# Clean column names
+ 
 data.columns = (
     data.columns
     .str.strip()
@@ -53,10 +44,7 @@ print("Rows:", len(data))
 print("Columns:", list(data.columns))
 
 
-# =====================================================
-# CHECK COLUMNS
-# =====================================================
-
+ 
 required_columns = [
     "date",
     "product",
@@ -78,10 +66,7 @@ if missing_columns:
     )
 
 
-# =====================================================
-# DATE PROCESSING
-# =====================================================
-
+ 
 data["date"] = pd.to_datetime(
     data["date"],
     errors="coerce"
@@ -92,10 +77,7 @@ data = data.dropna(
 )
 
 
-# =====================================================
-# FEATURE ENGINEERING
-# =====================================================
-
+ 
 data["week"] = (
     data["date"]
     .dt.isocalendar()
@@ -113,10 +95,7 @@ data["day_of_week"] = (
 )
 
 
-# =====================================================
-# FEATURES AND TARGET
-# =====================================================
-
+ 
 X = data[
     [
         "week",
@@ -129,11 +108,7 @@ X = data[
 
 y = data["units_sold"]
 
-
-# =====================================================
-# TRAIN TEST SPLIT
-# =====================================================
-
+ 
 X_train, X_test, y_train, y_test = train_test_split(
     X,
     y,
@@ -147,10 +122,7 @@ print("\nTraining records:", len(X_train))
 print("Testing records:", len(X_test))
 
 
-# =====================================================
-# RANDOM FOREST
-# =====================================================
-
+ 
 print("\nTraining Random Forest...")
 
 model = RandomForestRegressor(
@@ -164,19 +136,12 @@ model.fit(
 )
 
 
-# =====================================================
-# PREDICTION
-# =====================================================
-
+ 
 predictions = model.predict(
     X_test
 )
 
-
-# =====================================================
-# EVALUATION
-# =====================================================
-
+ 
 mae = mean_absolute_error(
     y_test,
     predictions
@@ -188,10 +153,7 @@ r2 = r2_score(
 )
 
 
-# =====================================================
-# SAVE MODEL
-# =====================================================
-
+ 
 with open(
     MODEL_PATH,
     "wb"
@@ -202,11 +164,7 @@ with open(
         file
     )
 
-
-# =====================================================
-# SAVE METRICS
-# =====================================================
-
+ 
 metrics = {
 
     "model": "Random Forest Regression",
@@ -240,10 +198,7 @@ with open(
     )
 
 
-# =====================================================
-# DISPLAY RESULTS
-# =====================================================
-
+ 
 print("\n====================================")
 print("       MODEL TRAINING COMPLETED")
 print("====================================")

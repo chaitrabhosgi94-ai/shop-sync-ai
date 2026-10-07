@@ -5,10 +5,7 @@ from pathlib import Path
 from datetime import timedelta
 
 
-# =====================================================
-# PROJECT PATHS
-# =====================================================
-
+ 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 MODEL_PATH = BASE_DIR / "ml" / "model.pkl"
@@ -16,10 +13,7 @@ MODEL_PATH = BASE_DIR / "ml" / "model.pkl"
 DATA_PATH = BASE_DIR / "data" / "sales.csv"
 
 
-# =====================================================
-# LOAD MODEL
-# =====================================================
-
+ 
 def load_model():
 
     with open(
@@ -32,9 +26,7 @@ def load_model():
     return model
 
 
-# =====================================================
-# PREDICT DEMAND
-# =====================================================
+ 
 
 def predict_demand(product_name):
 
@@ -44,7 +36,7 @@ def predict_demand(product_name):
         DATA_PATH
     )
 
-    # Clean CSV column names
+    
     data.columns = (
         data.columns
         .str.strip()
@@ -55,7 +47,7 @@ def predict_demand(product_name):
         )
     )
 
-    # Check date column
+     
     if "date" not in data.columns:
 
         raise ValueError(
@@ -71,7 +63,7 @@ def predict_demand(product_name):
         subset=["date"]
     )
 
-    # Find product
+  
     product_data = data[
         data["product"] == product_name
     ]
@@ -80,16 +72,16 @@ def predict_demand(product_name):
 
         return None
 
-    # Latest date in dataset
+     
     latest_date = data["date"].max()
 
-    # Predict next week
+    
     future_date = (
         latest_date +
         timedelta(days=7)
     )
 
-    # Feature engineering
+    
     week = int(
         future_date.isocalendar().week
     )
@@ -102,12 +94,12 @@ def predict_demand(product_name):
         future_date.dayofweek
     )
 
-    # Latest product price
+  
     price = float(
         product_data["price"].iloc[-1]
     )
 
-    # Create prediction input
+    
     features = pd.DataFrame(
         [
             {
@@ -120,7 +112,7 @@ def predict_demand(product_name):
         ]
     )
 
-    # ML prediction
+     
     prediction = model.predict(
         features
     )[0]
@@ -133,9 +125,7 @@ def predict_demand(product_name):
     return prediction
 
 
-# =====================================================
-# PRODUCT AI INSIGHT
-# =====================================================
+ 
 
 def get_product_insight(
     product_name,
@@ -150,13 +140,13 @@ def get_product_insight(
 
         return None
 
-    # Calculate reorder quantity
+    
     reorder = max(
         0,
         demand - current_stock
     )
 
-    # Demand classification
+    
     if demand >= 40:
 
         demand_level = "HIGH"
@@ -169,7 +159,7 @@ def get_product_insight(
 
         demand_level = "LOW"
 
-    # Recommendation
+     
     if reorder > 0:
 
         recommendation = (
